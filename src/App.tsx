@@ -66,9 +66,7 @@ export default function App() {
 
   // 获取进度的显示值（官方规则下A1/A2/A3都显示为A1）
   const getDisplayProgress = (progress: ProgressValue) => {
-    if (gameMode === '官方规则' && (progress === 'A1' || progress === 'A2' || progress === 'A3')) {
-      return 'A1';
-    }
+    // 移除强制显示A1的逻辑，让A1、A2、A3分别显示其真实值
     return progress;
   };
 
@@ -127,15 +125,8 @@ export default function App() {
   };
 
   const checkVictory = (team: Team, teamId: 'A' | 'B') => {
-    // 慢速打法：达到A即获胜
-    if (gameMode === '慢速打法' && team.progress === 'A' && gameStartTime) {
-      const time = formatGameTime(gameStartTime);
-      setGameTime(time);
-      setWinner(teamId);
-      setShowVictoryModal(true);
-      return true;
-    }
     // 官方规则：特殊胜利条件在handleProgressUpdate中处理
+    // 慢速打法：胜利条件在handleSlowModeProgressUpdate中处理
     return false;
   };
 
@@ -200,40 +191,55 @@ export default function App() {
     if (team === 'A') {
       if (baseProgress === 2) {
         if (currentTeam === 'A') {
-          const newProgress = updateProgress(teamA, 3);
-          setTeamA({ ...teamA, progress: newProgress });
-          if (newProgress === 'A') {
-            checkVictory({ ...teamA, progress: newProgress }, 'A');
+          // 检查是否已经是A且获得进步，如果是则获胜
+          if (teamA.progress === 'A') {
+            if (gameStartTime) {
+              const time = formatGameTime(gameStartTime);
+              setGameTime(time);
+              setWinner('A');
+              setShowVictoryModal(true);
+            }
+          } else {
+            const newProgress = updateProgress(teamA, 3);
+            setTeamA({ ...teamA, progress: newProgress });
           }
         } else {
           const newProgress = updateProgress(teamA, 2);
           setTeamA({ ...teamA, progress: newProgress });
           setCurrentTeam('A');
-          if (newProgress === 'A') {
-            checkVictory({ ...teamA, progress: newProgress }, 'A');
-          }
         }
       } else if (baseProgress === 3) {
         if (currentTeam === 'A') {
-          const newProgress = updateProgress(teamA, 2);
-          setTeamA({ ...teamA, progress: newProgress });
-          if (newProgress === 'A') {
-            checkVictory({ ...teamA, progress: newProgress }, 'A');
+          // 检查是否已经是A且获得进步，如果是则获胜
+          if (teamA.progress === 'A') {
+            if (gameStartTime) {
+              const time = formatGameTime(gameStartTime);
+              setGameTime(time);
+              setWinner('A');
+              setShowVictoryModal(true);
+            }
+          } else {
+            const newProgress = updateProgress(teamA, 2);
+            setTeamA({ ...teamA, progress: newProgress });
           }
         } else {
           const newProgress = updateProgress(teamA, 1);
           setTeamA({ ...teamA, progress: newProgress });
           setCurrentTeam('A');
-          if (newProgress === 'A') {
-            checkVictory({ ...teamA, progress: newProgress }, 'A');
-          }
         }
       } else if (baseProgress === 4) {
         if (currentTeam === 'A') {
-          const newProgress = updateProgress(teamA, 1);
-          setTeamA({ ...teamA, progress: newProgress });
-          if (newProgress === 'A') {
-            checkVictory({ ...teamA, progress: newProgress }, 'A');
+          // 检查是否已经是A且获得进步，如果是则获胜
+          if (teamA.progress === 'A') {
+            if (gameStartTime) {
+              const time = formatGameTime(gameStartTime);
+              setGameTime(time);
+              setWinner('A');
+              setShowVictoryModal(true);
+            }
+          } else {
+            const newProgress = updateProgress(teamA, 1);
+            setTeamA({ ...teamA, progress: newProgress });
           }
         } else {
           setCurrentTeam('A');
@@ -243,40 +249,55 @@ export default function App() {
       // 团队B的逻辑类似
       if (baseProgress === 2) {
         if (currentTeam === 'B') {
-          const newProgress = updateProgress(teamB, 3);
-          setTeamB({ ...teamB, progress: newProgress });
-          if (newProgress === 'A') {
-            checkVictory({ ...teamB, progress: newProgress }, 'B');
+          // 检查是否已经是A且获得进步，如果是则获胜
+          if (teamB.progress === 'A') {
+            if (gameStartTime) {
+              const time = formatGameTime(gameStartTime);
+              setGameTime(time);
+              setWinner('B');
+              setShowVictoryModal(true);
+            }
+          } else {
+            const newProgress = updateProgress(teamB, 3);
+            setTeamB({ ...teamB, progress: newProgress });
           }
         } else {
           const newProgress = updateProgress(teamB, 2);
           setTeamB({ ...teamB, progress: newProgress });
           setCurrentTeam('B');
-          if (newProgress === 'A') {
-            checkVictory({ ...teamB, progress: newProgress }, 'B');
-          }
         }
       } else if (baseProgress === 3) {
         if (currentTeam === 'B') {
-          const newProgress = updateProgress(teamB, 2);
-          setTeamB({ ...teamB, progress: newProgress });
-          if (newProgress === 'A') {
-            checkVictory({ ...teamB, progress: newProgress }, 'B');
+          // 检查是否已经是A且获得进步，如果是则获胜
+          if (teamB.progress === 'A') {
+            if (gameStartTime) {
+              const time = formatGameTime(gameStartTime);
+              setGameTime(time);
+              setWinner('B');
+              setShowVictoryModal(true);
+            }
+          } else {
+            const newProgress = updateProgress(teamB, 2);
+            setTeamB({ ...teamB, progress: newProgress });
           }
         } else {
           const newProgress = updateProgress(teamB, 1);
           setTeamB({ ...teamB, progress: newProgress });
           setCurrentTeam('B');
-          if (newProgress === 'A') {
-            checkVictory({ ...teamB, progress: newProgress }, 'B');
-          }
         }
       } else if (baseProgress === 4) {
         if (currentTeam === 'B') {
-          const newProgress = updateProgress(teamB, 1);
-          setTeamB({ ...teamB, progress: newProgress });
-          if (newProgress === 'A') {
-            checkVictory({ ...teamB, progress: newProgress }, 'B');
+          // 检查是否已经是A且获得进步，如果是则获胜
+          if (teamB.progress === 'A') {
+            if (gameStartTime) {
+              const time = formatGameTime(gameStartTime);
+              setGameTime(time);
+              setWinner('B');
+              setShowVictoryModal(true);
+            }
+          } else {
+            const newProgress = updateProgress(teamB, 1);
+            setTeamB({ ...teamB, progress: newProgress });
           }
         } else {
           setCurrentTeam('B');
@@ -288,6 +309,9 @@ export default function App() {
   const handleOfficialModeProgressUpdate = (team: 'A' | 'B', baseProgress: number) => {
     const currentTeamData = team === 'A' ? teamA : teamB;
     const setTeamData = team === 'A' ? setTeamA : setTeamB;
+    
+    // 更新当前玩家显示
+    setCurrentTeam(team);
     
     // 检查是否在A1/A2/A3等级
     const isInALevels = ['A1', 'A2', 'A3'].includes(currentTeamData.progress as string);
@@ -334,11 +358,6 @@ export default function App() {
 
   return (
     <div className="relative flex size-full min-h-screen flex-col bg-slate-50 group/design-root overflow-x-hidden" style={{ fontFamily: 'Lexend, "Noto Sans", sans-serif' }}>
-      {/* 测试元素 - 如果你看到这个红色条说明网站正常加载 */}
-      <div className="w-full bg-red-500 text-white text-center py-4 text-2xl font-bold">
-        🔥 测试：如果你看到这个红色条，说明最新代码已加载！模式选择应该在下方！ 🔥
-      </div>
-      
       <VictoryModal 
         isOpen={showVictoryModal} 
         winnerName={winner === 'A' ? (teamA.name || '团队 A') : (teamB.name || '团队 B')}
@@ -347,16 +366,16 @@ export default function App() {
       />
       <div className="layout-container flex h-full grow flex-col">
         <div className="px-40 flex flex-1 justify-center py-5">
-          <div className="layout-content-container flex flex-col w-[512px] max-w-[512px] py-5 max-w-[960px] flex-1">
+          <div className="layout-content-container flex flex-col w-full max-w-[800px] py-5 flex-1">
             {/* 标题和模式选择 */}
-            <div className="flex justify-between items-center px-4 pb-3 pt-5 bg-blue-50 border-2 border-blue-300">
+            <div className="flex justify-between items-center px-4 pb-3 pt-5">
               <h2 className="text-[#0d141c] tracking-light text-[28px] font-bold leading-tight">掼蛋记分器</h2>
-              <div className="flex items-center gap-2 bg-yellow-100 p-2 rounded-lg border-2 border-red-500">
+              <div className="flex items-center gap-2">
                 <label className="text-[#0d141c] text-sm font-medium">模式选择</label>
                 <select
                   value={gameMode}
                   onChange={(e) => handleModeChange(e.target.value as GameMode)}
-                  className="form-select rounded-lg border-2 border-green-500 bg-white px-3 py-2 text-[#0d141c] text-sm focus:outline-0 focus:ring-0 focus:border-[#3490f3] min-w-[120px]"
+                  className="form-select rounded-lg border border-[#cedbe8] bg-slate-50 px-3 py-2 text-[#0d141c] text-sm focus:outline-0 focus:ring-0 focus:border-[#3490f3]"
                 >
                   <option value="官方规则">官方规则</option>
                   <option value="慢速打法">慢速打法</option>
