@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import confetti from 'canvas-confetti';
 
 interface Team {
   name: string;
@@ -13,17 +14,21 @@ interface VictoryModalProps {
   isOpen: boolean;
   winnerName: string;
   onNewGame: () => void;
+  gameTime: string;
 }
 
-const VictoryModal: React.FC<VictoryModalProps> = ({ isOpen, winnerName, onNewGame }) => {
+const VictoryModal: React.FC<VictoryModalProps> = ({ isOpen, winnerName, onNewGame, gameTime }) => {
   if (!isOpen) return null;
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
       <div className="bg-white rounded-2xl p-8 max-w-md w-full mx-4 flex flex-col items-center">
-        <h3 className="text-[#0d141c] text-2xl font-bold mb-6">
+        <h3 className="text-[#0d141c] text-2xl font-bold mb-4">
           恭喜{winnerName}获得胜利
         </h3>
+        <p className="text-[#49719c] text-base mb-6">
+          本次游戏共用时：{gameTime}
+        </p>
         <button
           onClick={onNewGame}
           className="flex min-w-[120px] items-center justify-center overflow-hidden rounded-full h-10 px-6 bg-[#3490f3] text-slate-50 text-sm font-bold leading-normal tracking-[0.015em]"
@@ -44,6 +49,33 @@ export default function App() {
   const [showVictoryModal, setShowVictoryModal] = useState(false);
   const [winner, setWinner] = useState<'A' | 'B' | ''>('');
   const [buttonCooldown, setButtonCooldown] = useState(false);
+  const [gameStartTime, setGameStartTime] = useState<number | null>(null);
+  const [gameTime, setGameTime] = useState('');
+
+  const shootConfetti = () => {
+    confetti({
+      particleCount: 100,
+      spread: 70,
+      angle: 90,
+      origin: { x: Math.random(), y: Math.random() },
+      colors: ['#ff0000', '#ffa500', '#ffff00', '#008000', '#0000ff', '#4b0082', '#ee82ee']
+    });
+  };
+
+  useEffect(() => {
+    if (showVictoryModal) {
+      // 立即开始第一次烟花
+      shootConfetti();
+      shootConfetti();
+      
+      const intervalId = setInterval(() => {
+        shootConfetti();
+        shootConfetti();
+      }, 600);
+      
+      return () => clearInterval(intervalId);
+    }
+  }, [showVictoryModal]);
 
   const handleReset = () => {
     setTeamA({ name: teamA.name, progress: 2 });
@@ -53,6 +85,30 @@ export default function App() {
     setGameStarted(false);
     setShowVictoryModal(false);
     setWinner('');
+    setGameStartTime(null);
+    setGameTime('');
+  };
+
+  const formatGameTime = (startTime: number) => {
+    const duration = Math.floor((Date.now() - startTime) / 1000); // 转换为秒
+    const hours = Math.floor(duration / 3600);
+    const minutes = Math.floor((duration % 3600) / 60);
+    
+    if (hours > 0) {
+      return `${hours}小时${minutes}分钟`;
+    }
+    return `${minutes}分钟`;
+  };
+
+  const checkVictory = (team: Team, teamId: 'A' | 'B') => {
+    if (team.progress === 'A' && gameStartTime) {
+      const time = formatGameTime(gameStartTime);
+      setGameTime(time);
+      setWinner(teamId);
+      setShowVictoryModal(true);
+      return true;
+    }
+    return false;
   };
 
   const updateProgress = (team: Team, steps: number): ProgressValue => {
@@ -69,15 +125,6 @@ export default function App() {
     
     const nextIndex = Math.min(rawNextIndex, progressOrder.length - 1);
     return progressOrder[nextIndex];
-  };
-
-  const checkVictory = (team: Team, teamId: 'A' | 'B') => {
-    if (team.progress === 'A') {
-      setWinner(teamId);
-      setShowVictoryModal(true);
-      return true;
-    }
-    return false;
   };
 
   const handleProgressUpdate = (team: 'A' | 'B', baseProgress: number) => {
@@ -191,6 +238,7 @@ export default function App() {
         isOpen={showVictoryModal} 
         winnerName={winner === 'A' ? (teamA.name || '团队 A') : (teamB.name || '团队 B')}
         onNewGame={handleReset}
+        gameTime={gameTime}
       />
       <div className="layout-container flex h-full grow flex-col">
         <div className="px-40 flex flex-1 justify-center py-5">
@@ -243,8 +291,10 @@ export default function App() {
                   <button
                     onClick={() => {
                       if (initialTeam) {
+                        const now = Date.now();
                         setGameStarted(true);
                         setCurrentTeam(initialTeam);
+                        setGameStartTime(now);
                       }
                     }}
                     disabled={!initialTeam}
