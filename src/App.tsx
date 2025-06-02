@@ -43,6 +43,7 @@ export default function App() {
   const [gameStarted, setGameStarted] = useState(false);
   const [showVictoryModal, setShowVictoryModal] = useState(false);
   const [winner, setWinner] = useState<'A' | 'B' | ''>('');
+  const [buttonCooldown, setButtonCooldown] = useState(false);
 
   const handleReset = () => {
     setTeamA({ name: teamA.name, progress: 2 });
@@ -80,6 +81,13 @@ export default function App() {
   };
 
   const handleProgressUpdate = (team: 'A' | 'B', baseProgress: number) => {
+    if (buttonCooldown) return;
+    
+    setButtonCooldown(true);
+    setTimeout(() => {
+      setButtonCooldown(false);
+    }, 3000);
+
     if (team === 'A') {
       if (baseProgress === 2) {
         if (currentTeam === 'A') {
@@ -187,7 +195,7 @@ export default function App() {
       <div className="layout-container flex h-full grow flex-col">
         <div className="px-40 flex flex-1 justify-center py-5">
           <div className="layout-content-container flex flex-col w-[512px] max-w-[512px] py-5 max-w-[960px] flex-1">
-            <h2 className="text-[#0d141c] tracking-light text-[28px] font-bold leading-tight px-4 text-center pb-3 pt-5">掼蛋机分器</h2>
+            <h2 className="text-[#0d141c] tracking-light text-[28px] font-bold leading-tight px-4 text-center pb-3 pt-5">掼蛋记分器</h2>
             
             <h2 className="text-[#0d141c] text-[22px] font-bold leading-tight tracking-[-0.015em] px-4 pb-3 pt-5">团队名称</h2>
             <div className="flex flex-col gap-3 px-4 py-3">
@@ -276,33 +284,71 @@ export default function App() {
               </div>
             </div>
 
+            <h2 className="text-[#0d141c] text-[22px] font-bold leading-tight tracking-[-0.015em] px-4 pb-3 pt-5">玩家记录</h2>
+            <div className="flex justify-between px-4 py-3">
+              <div className="flex-1 bg-[#f0f3f8] rounded-2xl p-4 mr-4">
+                <div className="flex justify-between items-center mb-2">
+                  <p className="text-[#0d141c] text-base font-bold">{teamA.name || "团队A"}</p>
+                  <div className="flex items-center">
+                    <span className="text-[#49719c] text-sm mr-2">进度</span>
+                    <span className="text-[#0d141c] text-2xl font-bold">{teamA.progress}</span>
+                  </div>
+                </div>
+                <div className={`h-1 w-full rounded-full bg-[#e7edf4] overflow-hidden`}>
+                  <div 
+                    className="h-full bg-[#3490f3] transition-all duration-300" 
+                    style={{ 
+                      width: `${((progressOrder.indexOf(teamA.progress) + 1) / progressOrder.length) * 100}%` 
+                    }}
+                  />
+                </div>
+              </div>
+              <div className="flex-1 bg-[#f0f3f8] rounded-2xl p-4">
+                <div className="flex justify-between items-center mb-2">
+                  <p className="text-[#0d141c] text-base font-bold">{teamB.name || "团队B"}</p>
+                  <div className="flex items-center">
+                    <span className="text-[#49719c] text-sm mr-2">进度</span>
+                    <span className="text-[#0d141c] text-2xl font-bold">{teamB.progress}</span>
+                  </div>
+                </div>
+                <div className={`h-1 w-full rounded-full bg-[#e7edf4] overflow-hidden`}>
+                  <div 
+                    className="h-full bg-[#3490f3] transition-all duration-300" 
+                    style={{ 
+                      width: `${((progressOrder.indexOf(teamB.progress) + 1) / progressOrder.length) * 100}%` 
+                    }}
+                  />
+                </div>
+              </div>
+            </div>
+
             <h2 className="text-[#0d141c] text-[22px] font-bold leading-tight tracking-[-0.015em] px-4 pb-3 pt-5">调整进度</h2>
             <div className="flex justify-between px-4">
               <div className="flex flex-col items-center gap-3">
                 <h3 className="text-[#0d141c] text-base font-bold">{teamA.name || "团队A"}获胜</h3>
                 <button
                   onClick={() => handleProgressUpdate('A', 2)}
-                  disabled={!currentTeam || !gameStarted}
+                  disabled={!currentTeam || !gameStarted || buttonCooldown}
                   className={`flex min-w-[200px] items-center justify-center overflow-hidden rounded-full h-10 px-6 text-sm font-bold leading-normal tracking-[0.015em] ${
-                    currentTeam && gameStarted ? 'cursor-pointer bg-[#e7edf4] text-[#0d141c]' : 'cursor-not-allowed bg-[#f0f3f8] text-[#8494a5]'
+                    currentTeam && gameStarted && !buttonCooldown ? 'cursor-pointer bg-[#e7edf4] text-[#0d141c]' : 'cursor-not-allowed bg-[#f0f3f8] text-[#8494a5]'
                   }`}
                 >
                   <span className="truncate">{teamA.name || "团队A"}获得第2名</span>
                 </button>
                 <button
                   onClick={() => handleProgressUpdate('A', 3)}
-                  disabled={!currentTeam || !gameStarted}
+                  disabled={!currentTeam || !gameStarted || buttonCooldown}
                   className={`flex min-w-[200px] items-center justify-center overflow-hidden rounded-full h-10 px-6 text-sm font-bold leading-normal tracking-[0.015em] ${
-                    currentTeam && gameStarted ? 'cursor-pointer bg-[#e7edf4] text-[#0d141c]' : 'cursor-not-allowed bg-[#f0f3f8] text-[#8494a5]'
+                    currentTeam && gameStarted && !buttonCooldown ? 'cursor-pointer bg-[#e7edf4] text-[#0d141c]' : 'cursor-not-allowed bg-[#f0f3f8] text-[#8494a5]'
                   }`}
                 >
                   <span className="truncate">{teamA.name || "团队A"}获得第3名</span>
                 </button>
                 <button
                   onClick={() => handleProgressUpdate('A', 4)}
-                  disabled={!currentTeam || !gameStarted}
+                  disabled={!currentTeam || !gameStarted || buttonCooldown}
                   className={`flex min-w-[200px] items-center justify-center overflow-hidden rounded-full h-10 px-6 text-sm font-bold leading-normal tracking-[0.015em] ${
-                    currentTeam && gameStarted ? 'cursor-pointer bg-[#e7edf4] text-[#0d141c]' : 'cursor-not-allowed bg-[#f0f3f8] text-[#8494a5]'
+                    currentTeam && gameStarted && !buttonCooldown ? 'cursor-pointer bg-[#e7edf4] text-[#0d141c]' : 'cursor-not-allowed bg-[#f0f3f8] text-[#8494a5]'
                   }`}
                 >
                   <span className="truncate">{teamA.name || "团队A"}获得第4名</span>
@@ -312,27 +358,27 @@ export default function App() {
                 <h3 className="text-[#0d141c] text-base font-bold">{teamB.name || "团队B"}获胜</h3>
                 <button
                   onClick={() => handleProgressUpdate('B', 2)}
-                  disabled={!currentTeam || !gameStarted}
+                  disabled={!currentTeam || !gameStarted || buttonCooldown}
                   className={`flex min-w-[200px] items-center justify-center overflow-hidden rounded-full h-10 px-6 text-sm font-bold leading-normal tracking-[0.015em] ${
-                    currentTeam && gameStarted ? 'cursor-pointer bg-[#e7edf4] text-[#0d141c]' : 'cursor-not-allowed bg-[#f0f3f8] text-[#8494a5]'
+                    currentTeam && gameStarted && !buttonCooldown ? 'cursor-pointer bg-[#e7edf4] text-[#0d141c]' : 'cursor-not-allowed bg-[#f0f3f8] text-[#8494a5]'
                   }`}
                 >
                   <span className="truncate">{teamB.name || "团队B"}获得第2名</span>
                 </button>
                 <button
                   onClick={() => handleProgressUpdate('B', 3)}
-                  disabled={!currentTeam || !gameStarted}
+                  disabled={!currentTeam || !gameStarted || buttonCooldown}
                   className={`flex min-w-[200px] items-center justify-center overflow-hidden rounded-full h-10 px-6 text-sm font-bold leading-normal tracking-[0.015em] ${
-                    currentTeam && gameStarted ? 'cursor-pointer bg-[#e7edf4] text-[#0d141c]' : 'cursor-not-allowed bg-[#f0f3f8] text-[#8494a5]'
+                    currentTeam && gameStarted && !buttonCooldown ? 'cursor-pointer bg-[#e7edf4] text-[#0d141c]' : 'cursor-not-allowed bg-[#f0f3f8] text-[#8494a5]'
                   }`}
                 >
                   <span className="truncate">{teamB.name || "团队B"}获得第3名</span>
                 </button>
                 <button
                   onClick={() => handleProgressUpdate('B', 4)}
-                  disabled={!currentTeam || !gameStarted}
+                  disabled={!currentTeam || !gameStarted || buttonCooldown}
                   className={`flex min-w-[200px] items-center justify-center overflow-hidden rounded-full h-10 px-6 text-sm font-bold leading-normal tracking-[0.015em] ${
-                    currentTeam && gameStarted ? 'cursor-pointer bg-[#e7edf4] text-[#0d141c]' : 'cursor-not-allowed bg-[#f0f3f8] text-[#8494a5]'
+                    currentTeam && gameStarted && !buttonCooldown ? 'cursor-pointer bg-[#e7edf4] text-[#0d141c]' : 'cursor-not-allowed bg-[#f0f3f8] text-[#8494a5]'
                   }`}
                 >
                   <span className="truncate">{teamB.name || "团队B"}获得第4名</span>
