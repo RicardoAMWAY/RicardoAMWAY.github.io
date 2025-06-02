@@ -1,20 +1,38 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-CN">
   <head>
     <meta charset="UTF-8" />
     <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="" />
     <link
       rel="stylesheet"
-      as="style"
-      onload="this.rel='stylesheet'"
-      href="https://fonts.googleapis.com/css2?display=swap&amp;family=Lexend%3Awght%40400%3B500%3B700%3B900&amp;family=Noto+Sans%3Awght%40400%3B500%3B700%3B900"
+      href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;500;700;900&family=Noto+Sans:wght@400;500;700;900&display=swap"
     />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>损蛋机分器</title>
-    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-    <script type="module" crossorigin src="/assets/index-CjnGeqZc.js"></script>
+    <title>掼蛋记分器</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+        font-family: 'Lexend', 'Noto Sans', sans-serif;
+      }
+      .layout-container {
+        padding: 0 1rem;
+      }
+      @media (min-width: 640px) {
+        .layout-container {
+          padding: 0 2rem;
+        }
+      }
+      @media (min-width: 1024px) {
+        .layout-container {
+          padding: 0 4rem;
+        }
+      }
+    </style>
   </head>
   <body>
     <div id="root"></div>
+    <script type="module" crossorigin src="/assets/index-CjnGeqZc.js"></script>
   </body>
 </html> 
