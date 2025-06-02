@@ -124,12 +124,6 @@ export default function App() {
     return `${minutes}分钟`;
   };
 
-  const checkVictory = (team: Team, teamId: 'A' | 'B') => {
-    // 官方规则：特殊胜利条件在handleProgressUpdate中处理
-    // 慢速打法：胜利条件在handleSlowModeProgressUpdate中处理
-    return false;
-  };
-
   const updateProgress = (team: Team, steps: number): ProgressValue => {
     const progressOrder = getProgressOrder();
     const currentIndex = progressOrder.indexOf(team.progress);
