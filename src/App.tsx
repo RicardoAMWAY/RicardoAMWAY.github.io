@@ -27,12 +27,12 @@ const VictoryModal: React.FC<VictoryModalProps> = ({ isOpen, winnerName, onNewGa
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-      <div className="bg-white rounded-2xl p-8 max-w-md w-full mx-4 flex flex-col items-center">
-        <h3 className="text-[#0d141c] text-2xl font-bold mb-4">
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+      <div className="bg-white rounded-2xl p-6 sm:p-8 max-w-md w-full mx-4 flex flex-col items-center">
+        <h3 className="text-[#0d141c] text-xl sm:text-2xl font-bold mb-4 text-center">
           恭喜{winnerName}获得胜利
         </h3>
-        <p className="text-[#49719c] text-base mb-6">
+        <p className="text-[#49719c] text-base mb-6 text-center">
           本次游戏共用时：{gameTime}
         </p>
         <button
@@ -359,17 +359,17 @@ export default function App() {
         gameTime={gameTime}
       />
       <div className="layout-container flex h-full grow flex-col">
-        <div className="px-40 flex flex-1 justify-center py-5">
-          <div className="layout-content-container flex flex-col w-full max-w-[800px] py-5 flex-1">
+        <div className="px-1 sm:px-8 lg:px-40 flex flex-1 justify-center py-2 sm:py-5">
+          <div className="layout-content-container flex flex-col w-full max-w-[800px] py-2 sm:py-5 flex-1">
             {/* 标题和模式选择 */}
-            <div className="flex justify-between items-center px-4 pb-3 pt-5">
-              <h2 className="text-[#0d141c] tracking-light text-[28px] font-bold leading-tight">掼蛋记分器</h2>
+            <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center px-2 sm:px-4 pb-3 pt-2 sm:pt-5 gap-3 sm:gap-4">
+              <h2 className="text-[#0d141c] tracking-light text-xl sm:text-[28px] font-bold leading-tight">掼蛋记分器</h2>
               <div className="flex items-center gap-2">
                 <label className="text-[#0d141c] text-sm font-medium">模式选择</label>
                 <select
                   value={gameMode}
                   onChange={(e) => handleModeChange(e.target.value as GameMode)}
-                  className="form-select rounded-lg border border-[#cedbe8] bg-slate-50 px-3 py-2 text-[#0d141c] text-sm focus:outline-0 focus:ring-0 focus:border-[#3490f3]"
+                  className="form-select rounded-lg border border-[#cedbe8] bg-slate-50 px-3 py-2 text-[#0d141c] text-sm focus:outline-0 focus:ring-0 focus:border-[#3490f3] min-h-[48px]"
                 >
                   <option value="官方规则">官方规则</option>
                   <option value="慢速打法">慢速打法</option>
@@ -377,48 +377,50 @@ export default function App() {
               </div>
             </div>
             
-            <h2 className="text-[#0d141c] text-[22px] font-bold leading-tight tracking-[-0.015em] px-4 pb-3 pt-5">团队名称</h2>
-            <div className="flex flex-col gap-3 px-4 py-3">
-              <div className="flex items-center gap-4">
-                <div className="w-[240px]">
+            <h2 className="text-[#0d141c] text-xl sm:text-[22px] font-bold leading-tight tracking-[-0.015em] px-2 sm:px-4 pb-2 pt-4">团队名称</h2>
+            <div className="flex flex-col gap-4 px-2 sm:px-4 py-3">
+              <div className="flex flex-col gap-3">
+                <div className="w-full">
                   <input
                     placeholder="团队 A"
-                    className="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-xl text-[#0d141c] focus:outline-0 focus:ring-0 border border-[#cedbe8] bg-slate-50 focus:border-[#cedbe8] h-14 placeholder:text-[#49719c] p-[15px] text-base font-normal leading-normal"
+                    className="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-xl text-[#0d141c] focus:outline-0 focus:ring-0 border border-[#cedbe8] bg-slate-50 focus:border-[#cedbe8] h-12 sm:h-14 placeholder:text-[#49719c] p-[12px] sm:p-[15px] text-base font-normal leading-normal"
                     value={teamA.name}
                     onChange={(e) => setTeamA({ ...teamA, name: e.target.value })}
                   />
                 </div>
-                <label className="flex items-center gap-2 cursor-pointer">
-                  <input
-                    type="checkbox"
-                    className="form-checkbox h-5 w-5 text-[#3490f3] rounded border-[#cedbe8]"
-                    checked={initialTeam === 'A'}
-                    onChange={() => !gameStarted && setInitialTeam(initialTeam === 'A' ? '' : 'A')}
-                    disabled={gameStarted}
-                  />
-                  <span className="text-[#0d141c] text-sm">设为初始玩家</span>
-                </label>
+                <div className="flex items-center justify-between">
+                  <label className="flex items-center gap-3 cursor-pointer min-h-[48px] flex-1">
+                    <input
+                      type="checkbox"
+                      className="form-checkbox h-6 w-6 text-[#3490f3] rounded border-[#cedbe8]"
+                      checked={initialTeam === 'A'}
+                      onChange={() => !gameStarted && setInitialTeam(initialTeam === 'A' ? '' : 'A')}
+                      disabled={gameStarted}
+                    />
+                    <span className="text-[#0d141c] text-base">设为初始玩家</span>
+                  </label>
+                </div>
               </div>
 
-              <div className="flex items-center gap-4">
-                <div className="w-[240px]">
+              <div className="flex flex-col gap-3">
+                <div className="w-full">
                   <input
                     placeholder="团队 B"
-                    className="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-xl text-[#0d141c] focus:outline-0 focus:ring-0 border border-[#cedbe8] bg-slate-50 focus:border-[#cedbe8] h-14 placeholder:text-[#49719c] p-[15px] text-base font-normal leading-normal"
+                    className="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-xl text-[#0d141c] focus:outline-0 focus:ring-0 border border-[#cedbe8] bg-slate-50 focus:border-[#cedbe8] h-12 sm:h-14 placeholder:text-[#49719c] p-[12px] sm:p-[15px] text-base font-normal leading-normal"
                     value={teamB.name}
                     onChange={(e) => setTeamB({ ...teamB, name: e.target.value })}
                   />
                 </div>
-                <div className="flex items-center gap-4">
-                  <label className="flex items-center gap-2 cursor-pointer">
+                <div className="flex items-center justify-between gap-3">
+                  <label className="flex items-center gap-3 cursor-pointer min-h-[48px] flex-1">
                     <input
                       type="checkbox"
-                      className="form-checkbox h-5 w-5 text-[#3490f3] rounded border-[#cedbe8]"
+                      className="form-checkbox h-6 w-6 text-[#3490f3] rounded border-[#cedbe8]"
                       checked={initialTeam === 'B'}
                       onChange={() => !gameStarted && setInitialTeam(initialTeam === 'B' ? '' : 'B')}
                       disabled={gameStarted}
                     />
-                    <span className="text-[#0d141c] text-sm">设为初始玩家</span>
+                    <span className="text-[#0d141c] text-base">设为初始玩家</span>
                   </label>
                   <button
                     onClick={() => {
@@ -430,7 +432,7 @@ export default function App() {
                       }
                     }}
                     disabled={!initialTeam}
-                    className={`flex min-w-[84px] items-center justify-center overflow-hidden rounded-full h-10 px-4 text-sm font-bold leading-normal tracking-[0.015em] ${
+                    className={`flex min-w-[100px] items-center justify-center overflow-hidden rounded-full h-12 sm:h-10 px-6 text-base sm:text-sm font-bold leading-normal tracking-[0.015em] ${
                       initialTeam && !gameStarted
                         ? 'cursor-pointer bg-[#3490f3] text-slate-50'
                         : 'cursor-not-allowed bg-[#f0f3f8] text-[#8494a5]'
@@ -442,38 +444,38 @@ export default function App() {
               </div>
             </div>
 
-            <h2 className="text-[#0d141c] text-[22px] font-bold leading-tight tracking-[-0.015em] px-4 pb-3 pt-5">当前进度</h2>
-            <div className="flex justify-between items-center px-4 py-3">
+            <h2 className="text-[#0d141c] text-xl sm:text-[22px] font-bold leading-tight tracking-[-0.015em] px-2 sm:px-4 pb-2 pt-4">当前进度</h2>
+            <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center px-2 sm:px-4 py-3 gap-4">
               <div className="flex flex-col items-center">
                 <p className="text-[#0d141c] text-sm font-normal leading-normal">当前玩家</p>
-                <p className="text-[#0d141c] text-2xl font-bold leading-normal mt-2">
+                <p className="text-[#0d141c] text-lg sm:text-2xl font-bold leading-normal mt-2">
                   {getCurrentTeamName()}
                 </p>
               </div>
               <div className="flex flex-col items-center">
                 <p className="text-[#0d141c] text-sm font-normal leading-normal">当前进度</p>
-                <p className="text-[#0d141c] text-[48px] font-bold leading-normal mt-2">
+                <p className="text-[#0d141c] text-[32px] sm:text-[48px] font-bold leading-normal mt-2">
                   {currentTeam ? getDisplayProgress(currentTeam === 'A' ? teamA.progress : teamB.progress) : '-'}
                 </p>
               </div>
               <div className="flex flex-col items-center justify-end">
                 <button
                   onClick={handleReset}
-                  className="flex min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-full h-10 px-4 bg-[#e7edf4] text-[#0d141c] text-sm font-bold leading-normal tracking-[0.015em]"
+                  className="flex min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-full h-12 sm:h-10 px-4 bg-[#e7edf4] text-[#0d141c] text-base sm:text-sm font-bold leading-normal tracking-[0.015em]"
                 >
                   <span className="truncate">重置</span>
                 </button>
               </div>
             </div>
 
-            <h2 className="text-[#0d141c] text-[22px] font-bold leading-tight tracking-[-0.015em] px-4 pb-3 pt-5">玩家记录</h2>
-            <div className="flex justify-between px-4 py-3">
-              <div className="flex-1 bg-[#f0f3f8] rounded-2xl p-4 mr-4">
+            <h2 className="text-[#0d141c] text-xl sm:text-[22px] font-bold leading-tight tracking-[-0.015em] px-2 sm:px-4 pb-2 pt-4">玩家记录</h2>
+            <div className="flex flex-col md:flex-row md:justify-between px-2 sm:px-4 py-3 gap-4">
+              <div className="flex-1 bg-[#f0f3f8] rounded-2xl p-3 sm:p-4">
                 <div className="flex justify-between items-center mb-2">
                   <p className="text-[#0d141c] text-base font-bold">{teamA.name || "团队A"}</p>
                   <div className="flex items-center">
                     <span className="text-[#49719c] text-sm mr-2">进度</span>
-                    <span className="text-[#0d141c] text-2xl font-bold">{getDisplayProgress(teamA.progress)}</span>
+                    <span className="text-[#0d141c] text-lg sm:text-2xl font-bold">{getDisplayProgress(teamA.progress)}</span>
                   </div>
                 </div>
                 <div className={`h-1 w-full rounded-full bg-[#e7edf4] overflow-hidden`}>
@@ -485,12 +487,12 @@ export default function App() {
                   />
                 </div>
               </div>
-              <div className="flex-1 bg-[#f0f3f8] rounded-2xl p-4">
+              <div className="flex-1 bg-[#f0f3f8] rounded-2xl p-3 sm:p-4">
                 <div className="flex justify-between items-center mb-2">
                   <p className="text-[#0d141c] text-base font-bold">{teamB.name || "团队B"}</p>
                   <div className="flex items-center">
                     <span className="text-[#49719c] text-sm mr-2">进度</span>
-                    <span className="text-[#0d141c] text-2xl font-bold">{getDisplayProgress(teamB.progress)}</span>
+                    <span className="text-[#0d141c] text-lg sm:text-2xl font-bold">{getDisplayProgress(teamB.progress)}</span>
                   </div>
                 </div>
                 <div className={`h-1 w-full rounded-full bg-[#e7edf4] overflow-hidden`}>
@@ -504,14 +506,14 @@ export default function App() {
               </div>
             </div>
 
-            <h2 className="text-[#0d141c] text-[22px] font-bold leading-tight tracking-[-0.015em] px-4 pb-3 pt-5">调整进度</h2>
-            <div className="flex justify-between px-4">
-              <div className="flex flex-col items-center gap-3">
+            <h2 className="text-[#0d141c] text-xl sm:text-[22px] font-bold leading-tight tracking-[-0.015em] px-2 sm:px-4 pb-2 pt-4">调整进度</h2>
+            <div className="flex flex-col lg:flex-row lg:justify-between px-2 sm:px-4 gap-6 sm:gap-8">
+              <div className="flex flex-col items-center gap-4 flex-1">
                 <h3 className="text-[#0d141c] text-base font-bold">{teamA.name || "团队A"}获胜</h3>
                 <button
                   onClick={() => handleProgressUpdate('A', 2)}
                   disabled={!currentTeam || !gameStarted || buttonCooldown}
-                  className={`flex min-w-[200px] items-center justify-center overflow-hidden rounded-full h-10 px-6 text-sm font-bold leading-normal tracking-[0.015em] ${
+                  className={`flex w-full sm:min-w-[200px] items-center justify-center overflow-hidden rounded-full h-14 sm:h-10 px-4 sm:px-6 text-base sm:text-sm font-bold leading-normal tracking-[0.015em] ${
                     currentTeam && gameStarted && !buttonCooldown ? 'cursor-pointer bg-[#e7edf4] text-[#0d141c]' : 'cursor-not-allowed bg-[#f0f3f8] text-[#8494a5]'
                   }`}
                 >
@@ -520,7 +522,7 @@ export default function App() {
                 <button
                   onClick={() => handleProgressUpdate('A', 3)}
                   disabled={!currentTeam || !gameStarted || buttonCooldown}
-                  className={`flex min-w-[200px] items-center justify-center overflow-hidden rounded-full h-10 px-6 text-sm font-bold leading-normal tracking-[0.015em] ${
+                  className={`flex w-full sm:min-w-[200px] items-center justify-center overflow-hidden rounded-full h-14 sm:h-10 px-4 sm:px-6 text-base sm:text-sm font-bold leading-normal tracking-[0.015em] ${
                     currentTeam && gameStarted && !buttonCooldown ? 'cursor-pointer bg-[#e7edf4] text-[#0d141c]' : 'cursor-not-allowed bg-[#f0f3f8] text-[#8494a5]'
                   }`}
                 >
@@ -529,19 +531,19 @@ export default function App() {
                 <button
                   onClick={() => handleProgressUpdate('A', 4)}
                   disabled={!currentTeam || !gameStarted || buttonCooldown}
-                  className={`flex min-w-[200px] items-center justify-center overflow-hidden rounded-full h-10 px-6 text-sm font-bold leading-normal tracking-[0.015em] ${
+                  className={`flex w-full sm:min-w-[200px] items-center justify-center overflow-hidden rounded-full h-14 sm:h-10 px-4 sm:px-6 text-base sm:text-sm font-bold leading-normal tracking-[0.015em] ${
                     currentTeam && gameStarted && !buttonCooldown ? 'cursor-pointer bg-[#e7edf4] text-[#0d141c]' : 'cursor-not-allowed bg-[#f0f3f8] text-[#8494a5]'
                   }`}
                 >
                   <span className="truncate">{teamA.name || "团队A"}获得第4名</span>
                 </button>
               </div>
-              <div className="flex flex-col items-center gap-3">
+              <div className="flex flex-col items-center gap-4 flex-1">
                 <h3 className="text-[#0d141c] text-base font-bold">{teamB.name || "团队B"}获胜</h3>
                 <button
                   onClick={() => handleProgressUpdate('B', 2)}
                   disabled={!currentTeam || !gameStarted || buttonCooldown}
-                  className={`flex min-w-[200px] items-center justify-center overflow-hidden rounded-full h-10 px-6 text-sm font-bold leading-normal tracking-[0.015em] ${
+                  className={`flex w-full sm:min-w-[200px] items-center justify-center overflow-hidden rounded-full h-14 sm:h-10 px-4 sm:px-6 text-base sm:text-sm font-bold leading-normal tracking-[0.015em] ${
                     currentTeam && gameStarted && !buttonCooldown ? 'cursor-pointer bg-[#e7edf4] text-[#0d141c]' : 'cursor-not-allowed bg-[#f0f3f8] text-[#8494a5]'
                   }`}
                 >
@@ -550,7 +552,7 @@ export default function App() {
                 <button
                   onClick={() => handleProgressUpdate('B', 3)}
                   disabled={!currentTeam || !gameStarted || buttonCooldown}
-                  className={`flex min-w-[200px] items-center justify-center overflow-hidden rounded-full h-10 px-6 text-sm font-bold leading-normal tracking-[0.015em] ${
+                  className={`flex w-full sm:min-w-[200px] items-center justify-center overflow-hidden rounded-full h-14 sm:h-10 px-4 sm:px-6 text-base sm:text-sm font-bold leading-normal tracking-[0.015em] ${
                     currentTeam && gameStarted && !buttonCooldown ? 'cursor-pointer bg-[#e7edf4] text-[#0d141c]' : 'cursor-not-allowed bg-[#f0f3f8] text-[#8494a5]'
                   }`}
                 >
@@ -559,7 +561,7 @@ export default function App() {
                 <button
                   onClick={() => handleProgressUpdate('B', 4)}
                   disabled={!currentTeam || !gameStarted || buttonCooldown}
-                  className={`flex min-w-[200px] items-center justify-center overflow-hidden rounded-full h-10 px-6 text-sm font-bold leading-normal tracking-[0.015em] ${
+                  className={`flex w-full sm:min-w-[200px] items-center justify-center overflow-hidden rounded-full h-14 sm:h-10 px-4 sm:px-6 text-base sm:text-sm font-bold leading-normal tracking-[0.015em] ${
                     currentTeam && gameStarted && !buttonCooldown ? 'cursor-pointer bg-[#e7edf4] text-[#0d141c]' : 'cursor-not-allowed bg-[#f0f3f8] text-[#8494a5]'
                   }`}
                 >

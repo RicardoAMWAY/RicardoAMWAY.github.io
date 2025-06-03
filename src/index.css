@@ -9,12 +9,46 @@
     font-family: 'Lexend', 'Noto Sans', sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    /* 防止水平滚动 */
+    overflow-x: hidden;
+  }
+  
+  /* 确保在小屏幕上有最小的点击目标大小 */
+  button, input[type="checkbox"] {
+    min-height: 44px;
+  }
+  
+  /* 在小屏幕上优化复选框大小 */
+  @media (max-width: 640px) {
+    input[type="checkbox"] {
+      min-height: auto;
+      width: 20px;
+      height: 20px;
+    }
   }
 }
 
 @layer components {
   .layout-container {
     @apply px-4 sm:px-8 lg:px-16;
+  }
+  
+  /* 响应式间距 */
+  .responsive-spacing {
+    @apply px-4 sm:px-6 lg:px-8;
+  }
+  
+  /* 响应式文本大小 */
+  .responsive-text-lg {
+    @apply text-base sm:text-lg;
+  }
+  
+  .responsive-text-xl {
+    @apply text-lg sm:text-xl;
+  }
+  
+  .responsive-text-2xl {
+    @apply text-xl sm:text-2xl;
   }
 }
 
