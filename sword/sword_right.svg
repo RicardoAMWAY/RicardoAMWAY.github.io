@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="1000" viewBox="0 0 1000 1000">
+  <g transform="translate(500,500) rotate(45)">
+    <!-- Blade -->
+    <rect x="-14" y="-520" width="28" height="520" fill="#cfd8dc" stroke="#90a4ae" stroke-width="3"/>
+    <!-- Fuller -->
+    <rect x="-2" y="-510" width="4" height="500" fill="#b0bec5"/>
+    <!-- Tip -->
+    <polygon points="0,-560 -14,-520 14,-520" fill="#cfd8dc" stroke="#90a4ae" stroke-width="3"/>
+    <!-- Cross-guard -->
+    <rect x="-80" y="-10" width="160" height="20" rx="6" fill="#cfb97e" stroke="#bfa066" stroke-width="3"/>
+    <!-- Grip -->
+    <rect x="-20" y="10" width="40" height="120" fill="#6d4c41" stroke="#4e342e" stroke-width="3"/>
+    <!-- Pommel -->
+    <ellipse cx="0" cy="145" rx="22" ry="15" fill="#cfd8dc" stroke="#90a4ae" stroke-width="3"/>
+  </g>
+</svg>

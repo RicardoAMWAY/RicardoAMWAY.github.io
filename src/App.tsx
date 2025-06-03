@@ -72,90 +72,20 @@ const BattleAnimation: React.FC<BattleAnimationProps> = ({ isVisible, onAnimatio
       <div className="relative w-80 h-80 flex items-center justify-center">
         {/* 左边的中世纪骑士剑 */}
         <div className="absolute left-0 top-1/2 transform -translate-y-1/2 animate-sword-left">
-          <div className="relative w-4 h-72 transform rotate-45 origin-bottom-center">
-            {/* 剑身 */}
-            <div 
-              className="absolute top-0 w-full h-[85%] rounded-b-lg shadow-lg"
-              style={{
-                background: 'linear-gradient(to right, #e0e0e0, #ffffff, #e0e0e0)',
-                boxShadow: '0 0 15px rgba(255, 255, 255, 0.5)'
-              }}
-            ></div>
-            
-            {/* 剑柄 */}
-            <div 
-              className="absolute bottom-0 w-full h-[15%] rounded-lg"
-              style={{
-                background: 'linear-gradient(to right, #8B4513, #CD853F, #8B4513)'
-              }}
-            ></div>
-            
-            {/* 护手 */}
-            <div 
-              className="absolute w-12 h-2 rounded-sm"
-              style={{
-                bottom: '15%',
-                left: '50%',
-                transform: 'translateX(-50%)',
-                background: 'linear-gradient(to right, #8B4513, #CD853F, #8B4513)'
-              }}
-            ></div>
-            
-            {/* 剑首 */}
-            <div 
-              className="absolute w-5 h-5 rounded-full"
-              style={{
-                bottom: '-5px',
-                left: '50%',
-                transform: 'translateX(-50%)',
-                background: 'radial-gradient(circle, #DAA520, #B8860B)'
-              }}
-            ></div>
-          </div>
+          <img 
+            src="/sword_left.svg" 
+            alt="左剑" 
+            className="w-20 h-20 object-contain"
+          />
         </div>
         
         {/* 右边的中世纪骑士剑 */}
         <div className="absolute right-0 top-1/2 transform -translate-y-1/2 animate-sword-right">
-          <div className="relative w-4 h-72 transform -rotate-45 origin-bottom-center">
-            {/* 剑身 */}
-            <div 
-              className="absolute top-0 w-full h-[85%] rounded-b-lg shadow-lg"
-              style={{
-                background: 'linear-gradient(to right, #e0e0e0, #ffffff, #e0e0e0)',
-                boxShadow: '0 0 15px rgba(255, 255, 255, 0.5)'
-              }}
-            ></div>
-            
-            {/* 剑柄 */}
-            <div 
-              className="absolute bottom-0 w-full h-[15%] rounded-lg"
-              style={{
-                background: 'linear-gradient(to right, #8B4513, #CD853F, #8B4513)'
-              }}
-            ></div>
-            
-            {/* 护手 */}
-            <div 
-              className="absolute w-12 h-2 rounded-sm"
-              style={{
-                bottom: '15%',
-                left: '50%',
-                transform: 'translateX(-50%)',
-                background: 'linear-gradient(to right, #8B4513, #CD853F, #8B4513)'
-              }}
-            ></div>
-            
-            {/* 剑首 */}
-            <div 
-              className="absolute w-5 h-5 rounded-full"
-              style={{
-                bottom: '-5px',
-                left: '50%',
-                transform: 'translateX(-50%)',
-                background: 'radial-gradient(circle, #DAA520, #B8860B)'
-              }}
-            ></div>
-          </div>
+          <img 
+            src="/sword_right.svg" 
+            alt="右剑" 
+            className="w-20 h-20 object-contain"
+          />
         </div>
         
         {/* 碰撞火花效果 - 增强版 */}
