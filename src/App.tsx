@@ -68,14 +68,14 @@ const BattleAnimation: React.FC<BattleAnimationProps> = ({ isVisible, onAnimatio
 
   
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50">
-      <div className="relative w-80 h-80 flex items-center justify-center">
+    <div className="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50 p-4">
+      <div className="relative w-full max-w-lg h-80 sm:w-96 sm:h-96 flex items-center justify-center">
         {/* 左边的中世纪骑士剑 */}
         <div className="absolute left-0 top-1/2 transform -translate-y-1/2 animate-sword-left">
           <img 
             src="/sword_left.svg" 
             alt="左剑" 
-            className="w-96 h-96 object-contain"
+            className="w-72 h-72 sm:w-80 sm:h-80 object-contain"
           />
         </div>
         
@@ -84,21 +84,21 @@ const BattleAnimation: React.FC<BattleAnimationProps> = ({ isVisible, onAnimatio
           <img 
             src="/sword_right.svg" 
             alt="右剑" 
-            className="w-96 h-96 object-contain"
+            className="w-72 h-72 sm:w-80 sm:h-80 object-contain"
           />
         </div>
         
         {/* 碰撞火花效果 - 增强版 */}
         <div className="absolute inset-0 flex items-center justify-center">
-          <div className="w-12 h-12 bg-gradient-to-r from-yellow-300 via-orange-400 to-red-500 rounded-full animate-spark-outer opacity-0"></div>
-          <div className="w-8 h-8 bg-white rounded-full animate-spark opacity-0 absolute"></div>
-          <div className="w-4 h-4 bg-yellow-200 rounded-full animate-spark-inner opacity-0 absolute"></div>
+          <div className="w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-r from-yellow-300 via-orange-400 to-red-500 rounded-full animate-spark-outer opacity-0"></div>
+          <div className="w-6 h-6 sm:w-8 sm:h-8 bg-white rounded-full animate-spark opacity-0 absolute"></div>
+          <div className="w-3 h-3 sm:w-4 sm:h-4 bg-yellow-200 rounded-full animate-spark-inner opacity-0 absolute"></div>
         </div>
         
         {/* 战斗文字 - 更有气势 */}
-        <div className="absolute bottom-16 left-1/2 transform -translate-x-1/2">
-          <h2 className="text-white text-2xl font-bold animate-pulse drop-shadow-lg">⚔️ 骑士决斗 ⚔️</h2>
-          <p className="text-gray-300 text-center mt-2 animate-pulse">荣耀之战即将开始</p>
+        <div className="absolute bottom-8 sm:bottom-16 left-1/2 transform -translate-x-1/2 px-4">
+          <h2 className="text-white text-lg sm:text-2xl font-bold animate-pulse drop-shadow-lg text-center whitespace-nowrap">⚔️ 骑士决斗 ⚔️</h2>
+          <p className="text-gray-300 text-center mt-1 sm:mt-2 animate-pulse text-sm sm:text-base whitespace-nowrap">荣耀之战即将开始</p>
         </div>
       </div>
     </div>
@@ -507,7 +507,7 @@ export default function App() {
                       setShowBattleAnimation(true);
                     }
                   }}
-                  disabled={!initialTeam}
+                  disabled={!initialTeam || gameStarted}
                   className={`flex min-w-[100px] items-center justify-center overflow-hidden rounded-full h-8 sm:h-10 px-4 sm:px-6 text-sm sm:text-sm font-bold leading-normal tracking-[0.015em] whitespace-nowrap ${
                     initialTeam && !gameStarted
                       ? 'cursor-pointer bg-[#3490f3] text-slate-50'
