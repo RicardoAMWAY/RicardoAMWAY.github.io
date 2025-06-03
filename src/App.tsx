@@ -46,6 +46,81 @@ const VictoryModal: React.FC<VictoryModalProps> = ({ isOpen, winnerName, onNewGa
   );
 };
 
+interface BattleAnimationProps {
+  isVisible: boolean;
+  onAnimationEnd: () => void;
+}
+
+const BattleAnimation: React.FC<BattleAnimationProps> = ({ isVisible, onAnimationEnd }) => {
+  
+  useEffect(() => {
+    if (isVisible) {
+      const timer = setTimeout(() => {
+        onAnimationEnd();
+      }, 1000); // 动画持续1秒
+      return () => clearTimeout(timer);
+    }
+  }, [isVisible, onAnimationEnd]);
+
+  if (!isVisible) {
+    return null;
+  }
+
+  
+  return (
+    <div className="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50">
+      <div className="relative w-80 h-80 flex items-center justify-center">
+        {/* 左边的中世纪骑士剑 */}
+        <div className="absolute left-0 top-1/2 transform -translate-y-1/2 animate-sword-left">
+          {/* 剑身 */}
+          <div className="w-20 h-3 bg-gradient-to-r from-gray-300 via-gray-100 to-gray-300 transform rotate-45 origin-bottom-right shadow-lg border border-gray-400"></div>
+          {/* 剑脊线 */}
+          <div className="w-20 h-0.5 bg-gray-600 transform rotate-45 origin-bottom-right absolute top-1.5"></div>
+          
+          {/* 十字护手 */}
+          <div className="w-8 h-2 bg-gradient-to-r from-amber-600 to-amber-500 transform translate-x-6 -translate-y-2 border border-amber-700 shadow-md"></div>
+          
+          {/* 剑柄 */}
+          <div className="w-1.5 h-8 bg-gradient-to-b from-amber-700 to-amber-800 transform translate-x-7 -translate-y-1 border border-amber-900"></div>
+          
+          {/* 剑首 */}
+          <div className="w-3 h-2 bg-gradient-to-b from-amber-600 to-amber-700 transform translate-x-6 translate-y-6 rounded-full border border-amber-800"></div>
+        </div>
+        
+        {/* 右边的中世纪骑士剑 */}
+        <div className="absolute right-0 top-1/2 transform -translate-y-1/2 animate-sword-right">
+          {/* 剑身 */}
+          <div className="w-20 h-3 bg-gradient-to-r from-gray-300 via-gray-100 to-gray-300 transform -rotate-45 origin-bottom-left shadow-lg border border-gray-400"></div>
+          {/* 剑脊线 */}
+          <div className="w-20 h-0.5 bg-gray-600 transform -rotate-45 origin-bottom-left absolute top-1.5"></div>
+          
+          {/* 十字护手 */}
+          <div className="w-8 h-2 bg-gradient-to-r from-amber-600 to-amber-500 transform translate-x-6 -translate-y-2 border border-amber-700 shadow-md"></div>
+          
+          {/* 剑柄 */}
+          <div className="w-1.5 h-8 bg-gradient-to-b from-amber-700 to-amber-800 transform translate-x-7 -translate-y-1 border border-amber-900"></div>
+          
+          {/* 剑首 */}
+          <div className="w-3 h-2 bg-gradient-to-b from-amber-600 to-amber-700 transform translate-x-6 translate-y-6 rounded-full border border-amber-800"></div>
+        </div>
+        
+        {/* 碰撞火花效果 - 增强版 */}
+        <div className="absolute inset-0 flex items-center justify-center">
+          <div className="w-12 h-12 bg-gradient-to-r from-yellow-300 via-orange-400 to-red-500 rounded-full animate-spark-outer opacity-0"></div>
+          <div className="w-8 h-8 bg-white rounded-full animate-spark opacity-0 absolute"></div>
+          <div className="w-4 h-4 bg-yellow-200 rounded-full animate-spark-inner opacity-0 absolute"></div>
+        </div>
+        
+        {/* 战斗文字 - 更有气势 */}
+        <div className="absolute bottom-16 left-1/2 transform -translate-x-1/2">
+          <h2 className="text-white text-2xl font-bold animate-pulse drop-shadow-lg">⚔️ 骑士决斗 ⚔️</h2>
+          <p className="text-gray-300 text-center mt-2 animate-pulse">荣耀之战即将开始</p>
+        </div>
+      </div>
+    </div>
+  );
+};
+
 export default function App() {
   const [gameMode, setGameMode] = useState<GameMode>('官方规则');
   const [teamA, setTeamA] = useState<Team>({ name: '', progress: 2 });
@@ -58,6 +133,7 @@ export default function App() {
   const [buttonCooldown, setButtonCooldown] = useState(false);
   const [gameStartTime, setGameStartTime] = useState<number | null>(null);
   const [gameTime, setGameTime] = useState('');
+  const [showBattleAnimation, setShowBattleAnimation] = useState(false);
 
   // 获取当前模式的进度顺序
   const getProgressOrder = () => {
@@ -350,6 +426,17 @@ export default function App() {
     }
   };
 
+  const handleBattleAnimationEnd = () => {
+    setShowBattleAnimation(false);
+    // 动画结束后滚动到页面底部
+    setTimeout(() => {
+      window.scrollTo({
+        top: document.documentElement.scrollHeight,
+        behavior: 'smooth'
+      });
+    }, 100); // 稍微延迟确保动画完全结束
+  };
+
   return (
     <div className="relative flex size-full min-h-screen flex-col bg-slate-50 group/design-root overflow-x-hidden" style={{ fontFamily: 'Lexend, "Noto Sans", sans-serif' }}>
       <VictoryModal 
@@ -357,6 +444,10 @@ export default function App() {
         winnerName={winner === 'A' ? (teamA.name || '团队 A') : (teamB.name || '团队 B')}
         onNewGame={handleReset}
         gameTime={gameTime}
+      />
+      <BattleAnimation 
+        isVisible={showBattleAnimation} 
+        onAnimationEnd={handleBattleAnimationEnd}
       />
       <div className="layout-container flex h-full grow flex-col">
         <div className="px-1 sm:px-8 lg:px-40 flex flex-1 justify-center py-2 sm:py-5">
@@ -378,69 +469,69 @@ export default function App() {
             </div>
             
             <h2 className="text-[#0d141c] text-xl sm:text-[22px] font-bold leading-tight tracking-[-0.015em] px-2 sm:px-4 pb-2 pt-4">团队名称</h2>
+            
             <div className="flex flex-col gap-4 px-2 sm:px-4 py-3">
-              <div className="flex flex-col gap-3">
-                <div className="w-full">
+              {/* 第一行：团队A输入框 | 设为初始玩家 */}
+              <div className="flex items-center gap-3">
+                <input
+                  placeholder="团队 A"
+                  className="form-input flex min-w-0 flex-1 resize-none overflow-hidden rounded-xl text-[#0d141c] focus:outline-0 focus:ring-0 border border-[#cedbe8] bg-slate-50 focus:border-[#cedbe8] h-8 sm:h-10 placeholder:text-[#49719c] p-[8px] sm:p-[10px] text-base font-normal leading-normal"
+                  value={teamA.name}
+                  onChange={(e) => setTeamA({ ...teamA, name: e.target.value })}
+                />
+                <label className="flex items-center gap-2 cursor-pointer whitespace-nowrap">
                   <input
-                    placeholder="团队 A"
-                    className="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-xl text-[#0d141c] focus:outline-0 focus:ring-0 border border-[#cedbe8] bg-slate-50 focus:border-[#cedbe8] h-12 sm:h-14 placeholder:text-[#49719c] p-[12px] sm:p-[15px] text-base font-normal leading-normal"
-                    value={teamA.name}
-                    onChange={(e) => setTeamA({ ...teamA, name: e.target.value })}
+                    type="radio"
+                    name="initialTeam"
+                    className="h-5 w-5 text-[#3490f3] border-2 border-[#cedbe8] focus:ring-2 focus:ring-[#3490f3] focus:ring-offset-0"
+                    checked={initialTeam === 'A'}
+                    onChange={() => !gameStarted && setInitialTeam('A')}
+                    disabled={gameStarted}
                   />
-                </div>
-                <div className="flex items-center justify-between">
-                  <label className="flex items-center gap-3 cursor-pointer min-h-[48px] flex-1">
-                    <input
-                      type="checkbox"
-                      className="form-checkbox h-6 w-6 text-[#3490f3] rounded border-[#cedbe8]"
-                      checked={initialTeam === 'A'}
-                      onChange={() => !gameStarted && setInitialTeam(initialTeam === 'A' ? '' : 'A')}
-                      disabled={gameStarted}
-                    />
-                    <span className="text-[#0d141c] text-base">设为初始玩家</span>
-                  </label>
-                </div>
+                  <span className="text-[#0d141c] text-base">设为初始玩家</span>
+                </label>
+                {/* 占位元素，使输入框长度与团队B一致 */}
+                <div className="min-w-[100px]"></div>
               </div>
 
-              <div className="flex flex-col gap-3">
-                <div className="w-full">
+              {/* 第二行：团队B输入框 | 设为初始玩家 | 开始游戏按钮 */}
+              <div className="flex items-center gap-3">
+                <input
+                  placeholder="团队 B"
+                  className="form-input flex min-w-0 flex-1 resize-none overflow-hidden rounded-xl text-[#0d141c] focus:outline-0 focus:ring-0 border border-[#cedbe8] bg-slate-50 focus:border-[#cedbe8] h-8 sm:h-10 placeholder:text-[#49719c] p-[8px] sm:p-[10px] text-base font-normal leading-normal"
+                  value={teamB.name}
+                  onChange={(e) => setTeamB({ ...teamB, name: e.target.value })}
+                />
+                <label className="flex items-center gap-2 cursor-pointer whitespace-nowrap">
                   <input
-                    placeholder="团队 B"
-                    className="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-xl text-[#0d141c] focus:outline-0 focus:ring-0 border border-[#cedbe8] bg-slate-50 focus:border-[#cedbe8] h-12 sm:h-14 placeholder:text-[#49719c] p-[12px] sm:p-[15px] text-base font-normal leading-normal"
-                    value={teamB.name}
-                    onChange={(e) => setTeamB({ ...teamB, name: e.target.value })}
+                    type="radio"
+                    name="initialTeam"
+                    className="h-5 w-5 text-[#3490f3] border-2 border-[#cedbe8] focus:ring-2 focus:ring-[#3490f3] focus:ring-offset-0"
+                    checked={initialTeam === 'B'}
+                    onChange={() => !gameStarted && setInitialTeam('B')}
+                    disabled={gameStarted}
                   />
-                </div>
-                <div className="flex items-center justify-between gap-3">
-                  <label className="flex items-center gap-3 cursor-pointer min-h-[48px] flex-1">
-                    <input
-                      type="checkbox"
-                      className="form-checkbox h-6 w-6 text-[#3490f3] rounded border-[#cedbe8]"
-                      checked={initialTeam === 'B'}
-                      onChange={() => !gameStarted && setInitialTeam(initialTeam === 'B' ? '' : 'B')}
-                      disabled={gameStarted}
-                    />
-                    <span className="text-[#0d141c] text-base">设为初始玩家</span>
-                  </label>
-                  <button
-                    onClick={() => {
-                      if (initialTeam) {
-                        const now = Date.now();
-                        setGameStarted(true);
-                        setCurrentTeam(initialTeam);
-                        setGameStartTime(now);
-                      }
-                    }}
-                    disabled={!initialTeam}
-                    className={`flex min-w-[100px] items-center justify-center overflow-hidden rounded-full h-12 sm:h-10 px-6 text-base sm:text-sm font-bold leading-normal tracking-[0.015em] ${
-                      initialTeam && !gameStarted
-                        ? 'cursor-pointer bg-[#3490f3] text-slate-50'
-                        : 'cursor-not-allowed bg-[#f0f3f8] text-[#8494a5]'
-                    }`}
-                  >
-                    <span className="truncate">开始游戏</span>
-                  </button>
-                </div>
+                  <span className="text-[#0d141c] text-base">设为初始玩家</span>
+                </label>
+                <button
+                  onClick={() => {
+                    if (initialTeam) {
+                      const now = Date.now();
+                      setGameStarted(true);
+                      setCurrentTeam(initialTeam);
+                      setGameStartTime(now);
+                      setShowBattleAnimation(true);
+                    }
+                  }}
+                  disabled={!initialTeam}
+                  className={`flex min-w-[100px] items-center justify-center overflow-hidden rounded-full h-8 sm:h-10 px-4 sm:px-6 text-sm sm:text-sm font-bold leading-normal tracking-[0.015em] whitespace-nowrap ${
+                    initialTeam && !gameStarted
+                      ? 'cursor-pointer bg-[#3490f3] text-slate-50'
+                      : 'cursor-not-allowed bg-[#f0f3f8] text-[#8494a5]'
+                  }`}
+                >
+                  <span className="truncate">开始游戏</span>
+                </button>
               </div>
             </div>
 

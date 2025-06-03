@@ -14,7 +14,11 @@
   }
   
   /* 确保在小屏幕上有最小的点击目标大小 */
-  button, input[type="checkbox"] {
+  button {
+    min-height: 44px;
+  }
+  
+  input[type="checkbox"] {
     min-height: 44px;
   }
   
@@ -25,6 +29,37 @@
       width: 20px;
       height: 20px;
     }
+  }
+  
+  /* Radio button 圆形样式 */
+  input[type="radio"] {
+    appearance: none;
+    border-radius: 50%;
+    position: relative;
+    background-color: white;
+    cursor: pointer;
+  }
+  
+  input[type="radio"]:checked {
+    background-color: #3490f3;
+    border-color: #3490f3;
+  }
+  
+  input[type="radio"]:checked::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: white;
+  }
+  
+  input[type="radio"]:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px #3490f3;
   }
 }
 
@@ -49,6 +84,130 @@
   
   .responsive-text-2xl {
     @apply text-xl sm:text-2xl;
+  }
+}
+
+@layer utilities {
+  /* 战斗动画 - 左剑攻击 */
+  @keyframes sword-left {
+    0% {
+      transform: translateX(-100px) translateY(-50%) rotate(0deg);
+      opacity: 0;
+    }
+    30% {
+      opacity: 1;
+    }
+    60% {
+      transform: translateX(140px) translateY(-50%) rotate(20deg);
+    }
+    80% {
+      transform: translateX(120px) translateY(-50%) rotate(-10deg);
+    }
+    100% {
+      transform: translateX(130px) translateY(-50%) rotate(5deg);
+    }
+  }
+  
+  /* 战斗动画 - 右剑攻击 */
+  @keyframes sword-right {
+    0% {
+      transform: translateX(100px) translateY(-50%) rotate(0deg);
+      opacity: 0;
+    }
+    30% {
+      opacity: 1;
+    }
+    60% {
+      transform: translateX(-140px) translateY(-50%) rotate(-20deg);
+    }
+    80% {
+      transform: translateX(-120px) translateY(-50%) rotate(10deg);
+    }
+    100% {
+      transform: translateX(-130px) translateY(-50%) rotate(-5deg);
+    }
+  }
+  
+  /* 火花效果 */
+  @keyframes spark {
+    0% {
+      opacity: 0;
+      transform: scale(0) rotate(0deg);
+    }
+    20% {
+      opacity: 1;
+      transform: scale(1.5) rotate(90deg);
+      box-shadow: 0 0 20px #ffd700, 0 0 40px #ff6b35, 0 0 60px #ffffff;
+    }
+    50% {
+      opacity: 1;
+      transform: scale(2.5) rotate(180deg);
+      box-shadow: 0 0 30px #ffd700, 0 0 60px #ff6b35, 0 0 90px #ffffff, 0 0 120px #ff0000;
+    }
+    80% {
+      opacity: 0.8;
+      transform: scale(1.8) rotate(270deg);
+      box-shadow: 0 0 25px #ffd700, 0 0 50px #ff6b35;
+    }
+    100% {
+      opacity: 0;
+      transform: scale(0) rotate(360deg);
+    }
+  }
+  
+  /* 多层火花效果 */
+  @keyframes spark-outer {
+    0% {
+      opacity: 0;
+      transform: scale(0);
+    }
+    30% {
+      opacity: 0.8;
+      transform: scale(2);
+    }
+    70% {
+      opacity: 0.4;
+      transform: scale(3);
+    }
+    100% {
+      opacity: 0;
+      transform: scale(4);
+    }
+  }
+  
+  @keyframes spark-inner {
+    0% {
+      opacity: 0;
+      transform: scale(0);
+    }
+    40% {
+      opacity: 1;
+      transform: scale(1);
+    }
+    100% {
+      opacity: 0;
+      transform: scale(2);
+    }
+  }
+  
+  .animate-sword-left {
+    animation: sword-left 1s ease-out forwards;
+  }
+  
+  .animate-sword-right {
+    animation: sword-right 1s ease-out forwards;
+  }
+  
+  .animate-spark {
+    animation: spark 0.5s ease-out 0.6s forwards;
+  }
+  
+  .animate-spark-outer {
+    animation: spark-outer 0.8s ease-out 0.6s forwards;
+  }
+  
+  .animate-spark-inner {
+    animation: spark-inner 0.4s ease-out 0.7s forwards;
   }
 }
 
