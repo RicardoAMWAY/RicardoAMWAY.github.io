@@ -72,36 +72,90 @@ const BattleAnimation: React.FC<BattleAnimationProps> = ({ isVisible, onAnimatio
       <div className="relative w-80 h-80 flex items-center justify-center">
         {/* 左边的中世纪骑士剑 */}
         <div className="absolute left-0 top-1/2 transform -translate-y-1/2 animate-sword-left">
-          {/* 剑身 */}
-          <div className="w-20 h-3 bg-gradient-to-r from-gray-300 via-gray-100 to-gray-300 transform rotate-45 origin-bottom-right shadow-lg border border-gray-400"></div>
-          {/* 剑脊线 */}
-          <div className="w-20 h-0.5 bg-gray-600 transform rotate-45 origin-bottom-right absolute top-1.5"></div>
-          
-          {/* 十字护手 */}
-          <div className="w-8 h-2 bg-gradient-to-r from-amber-600 to-amber-500 transform translate-x-6 -translate-y-2 border border-amber-700 shadow-md"></div>
-          
-          {/* 剑柄 */}
-          <div className="w-1.5 h-8 bg-gradient-to-b from-amber-700 to-amber-800 transform translate-x-7 -translate-y-1 border border-amber-900"></div>
-          
-          {/* 剑首 */}
-          <div className="w-3 h-2 bg-gradient-to-b from-amber-600 to-amber-700 transform translate-x-6 translate-y-6 rounded-full border border-amber-800"></div>
+          <div className="relative w-4 h-72 transform rotate-45 origin-bottom-center">
+            {/* 剑身 */}
+            <div 
+              className="absolute top-0 w-full h-[85%] rounded-b-lg shadow-lg"
+              style={{
+                background: 'linear-gradient(to right, #e0e0e0, #ffffff, #e0e0e0)',
+                boxShadow: '0 0 15px rgba(255, 255, 255, 0.5)'
+              }}
+            ></div>
+            
+            {/* 剑柄 */}
+            <div 
+              className="absolute bottom-0 w-full h-[15%] rounded-lg"
+              style={{
+                background: 'linear-gradient(to right, #8B4513, #CD853F, #8B4513)'
+              }}
+            ></div>
+            
+            {/* 护手 */}
+            <div 
+              className="absolute w-12 h-2 rounded-sm"
+              style={{
+                bottom: '15%',
+                left: '50%',
+                transform: 'translateX(-50%)',
+                background: 'linear-gradient(to right, #8B4513, #CD853F, #8B4513)'
+              }}
+            ></div>
+            
+            {/* 剑首 */}
+            <div 
+              className="absolute w-5 h-5 rounded-full"
+              style={{
+                bottom: '-5px',
+                left: '50%',
+                transform: 'translateX(-50%)',
+                background: 'radial-gradient(circle, #DAA520, #B8860B)'
+              }}
+            ></div>
+          </div>
         </div>
         
         {/* 右边的中世纪骑士剑 */}
         <div className="absolute right-0 top-1/2 transform -translate-y-1/2 animate-sword-right">
-          {/* 剑身 */}
-          <div className="w-20 h-3 bg-gradient-to-r from-gray-300 via-gray-100 to-gray-300 transform -rotate-45 origin-bottom-left shadow-lg border border-gray-400"></div>
-          {/* 剑脊线 */}
-          <div className="w-20 h-0.5 bg-gray-600 transform -rotate-45 origin-bottom-left absolute top-1.5"></div>
-          
-          {/* 十字护手 */}
-          <div className="w-8 h-2 bg-gradient-to-r from-amber-600 to-amber-500 transform translate-x-6 -translate-y-2 border border-amber-700 shadow-md"></div>
-          
-          {/* 剑柄 */}
-          <div className="w-1.5 h-8 bg-gradient-to-b from-amber-700 to-amber-800 transform translate-x-7 -translate-y-1 border border-amber-900"></div>
-          
-          {/* 剑首 */}
-          <div className="w-3 h-2 bg-gradient-to-b from-amber-600 to-amber-700 transform translate-x-6 translate-y-6 rounded-full border border-amber-800"></div>
+          <div className="relative w-4 h-72 transform -rotate-45 origin-bottom-center">
+            {/* 剑身 */}
+            <div 
+              className="absolute top-0 w-full h-[85%] rounded-b-lg shadow-lg"
+              style={{
+                background: 'linear-gradient(to right, #e0e0e0, #ffffff, #e0e0e0)',
+                boxShadow: '0 0 15px rgba(255, 255, 255, 0.5)'
+              }}
+            ></div>
+            
+            {/* 剑柄 */}
+            <div 
+              className="absolute bottom-0 w-full h-[15%] rounded-lg"
+              style={{
+                background: 'linear-gradient(to right, #8B4513, #CD853F, #8B4513)'
+              }}
+            ></div>
+            
+            {/* 护手 */}
+            <div 
+              className="absolute w-12 h-2 rounded-sm"
+              style={{
+                bottom: '15%',
+                left: '50%',
+                transform: 'translateX(-50%)',
+                background: 'linear-gradient(to right, #8B4513, #CD853F, #8B4513)'
+              }}
+            ></div>
+            
+            {/* 剑首 */}
+            <div 
+              className="absolute w-5 h-5 rounded-full"
+              style={{
+                bottom: '-5px',
+                left: '50%',
+                transform: 'translateX(-50%)',
+                background: 'radial-gradient(circle, #DAA520, #B8860B)'
+              }}
+            ></div>
+          </div>
         </div>
         
         {/* 碰撞火花效果 - 增强版 */}
