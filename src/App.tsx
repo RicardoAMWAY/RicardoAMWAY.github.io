@@ -75,7 +75,7 @@ const BattleAnimation: React.FC<BattleAnimationProps> = ({ isVisible, onAnimatio
           <img 
             src="/sword_left.svg" 
             alt="左剑" 
-            className="w-20 h-20 object-contain"
+            className="w-96 h-96 object-contain"
           />
         </div>
         
@@ -84,7 +84,7 @@ const BattleAnimation: React.FC<BattleAnimationProps> = ({ isVisible, onAnimatio
           <img 
             src="/sword_right.svg" 
             alt="右剑" 
-            className="w-20 h-20 object-contain"
+            className="w-96 h-96 object-contain"
           />
         </div>
         
